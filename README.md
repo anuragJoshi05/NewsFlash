@@ -1,4 +1,4 @@
-# newsflash
+# NewsFlash
 
 A news app better than other news apps on Flutter.
 
