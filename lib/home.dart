@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,10 +22,12 @@ class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("NewsFlash",style: TextStyle(fontWeight: FontWeight.bold, color: Colors.yellow),),
+        title: const Text(
+          "NewsFlash",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.yellow),
+        ),
         centerTitle: true,
         backgroundColor: Colors.black87,
       ),
@@ -86,30 +89,58 @@ class _HomeState extends State<Home> {
                   shrinkWrap: true,
                   itemCount: navBarItem.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Center(
-                        child: Text(
-                          navBarItem[index],
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                    return InkWell(
+                      onTap: () {
+                        print("$navBarItem");
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            navBarItem[index],
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     );
                   }),
             ),
+          ),
+          CarouselSlider(
+            options: (CarouselOptions(
+              height: 200,
+              enableInfiniteScroll: false,
+              autoPlay: true,
+              enlargeCenterPage: true,
+            )),
+            items: itemList.map((itemList) {
+              return Builder(builder: (BuildContext context) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                  child: itemList,
+                );
+              });
+            }).toList(),
           )
         ],
       ),
     );
   }
+
+  final List itemList = [
+   Text("Who"),
+    Text("are"),
+    Text("you"),
+    Text("Narendra Modi")
+  ];
 }
