@@ -174,11 +174,15 @@ class _HomeState extends State<Home> {
                         controller: searchController,
                         style: const TextStyle(color: Colors.greenAccent),
                         onSubmitted: (value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Category(Query: value)));
+                          if (value == "") {
+                            print("Blank Search not possible");
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Category(Query: value)));
+                          }
                         },
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -246,14 +250,15 @@ class _HomeState extends State<Home> {
               child: isLoading
                   ? Container(
                       height: 200,
-                      child: Center(child: CircularProgressIndicator()))
+                      child: Center(child: CircularProgressIndicator()),
+                    )
                   : CarouselSlider(
-                      options: (CarouselOptions(
+                      options: CarouselOptions(
                         height: 200,
                         enableInfiniteScroll: false,
                         autoPlay: true,
                         enlargeCenterPage: true,
-                      )),
+                      ),
                       items: newsModelListCarousel.map((instance) {
                         return Builder(builder: (BuildContext context) {
                           return Container(
@@ -307,9 +312,10 @@ class _HomeState extends State<Home> {
                                                 ? "${instance.newsHead.substring(0, 45)}..."
                                                 : "${instance.newsHead}...",
                                             style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                                color: Colors.white),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -326,21 +332,54 @@ class _HomeState extends State<Home> {
             Container(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(15, 25, 0, 0),
-                        child: const Text(
-                          "LATEST NEWS",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 28,
-                          ),
-                        ),
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200], // Background color
+                        borderRadius:
+                            BorderRadius.circular(10), // Rounded corners
                       ),
-                    ],
-                  ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20), // Add padding
+                        decoration: BoxDecoration(
+                          color:
+                              Colors.black, // Background color of the container
+                          borderRadius:
+                              BorderRadius.circular(10), // Rounded corners
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Colors.grey.withOpacity(0.5), // Shadow color
+                              spreadRadius: 2, // Spread radius
+                              blurRadius: 5, // Blur radius
+                              offset: const Offset(0, 2), // Shadow offset
+                            ),
+                          ],
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment
+                              .center, // Center align the contents
+                          children: [
+                            Icon(
+                              Icons.article_rounded,
+                              color: Colors.yellow, // Icon color
+                              size: 32,
+                            ),
+                            SizedBox(
+                                width: 10), // Spacing between icon and text
+                            Text(
+                              "LATEST NEWS",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                                color: Colors.yellow, // Text color
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
                   isLoading
                       ? SizedBox(
                           height: 220,
@@ -451,6 +490,15 @@ class _HomeState extends State<Home> {
                                     builder: (context) => Category(
                                         Query: newsCategories[randomIndex])));
                           },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blueGrey, // Text color
+                            elevation: 3, // Elevation
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(8), // Border radius
+                            ),
+                          ),
                           child: const Text("SHOW MORE"),
                         ),
                       ),

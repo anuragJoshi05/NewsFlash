@@ -5,7 +5,8 @@ import 'package:http/http.dart';
 
 import 'model.dart';
 
-class Category extends StatefulWidget {
+class Category extends StatefulWidget{
+
   String Query;
   Category({required this.Query});
 
@@ -71,16 +72,29 @@ class _CategoryState extends State<Category> {
                 children: [
                   Container(
                     padding: const EdgeInsets.fromLTRB(25, 25, 30, 15),
-                    child : Text(
-                      widget.Query.toUpperCase(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 33,
-                      ),
+                    color: Colors.black87, // Background color for the subheading
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.subject_rounded, // Add your preferred icon
+                          color: Colors.yellow, // Icon color based on theme
+                          size: 32, // Icon size
+                        ),
+                        SizedBox(width: 10), // Spacing between icon and text
+                        Text(
+                          widget.Query.toUpperCase(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 33,
+                            color: Colors.white, // Text color based on theme
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
+
               isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
