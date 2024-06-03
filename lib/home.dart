@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:newsflash/model.dart';
 import 'package:http/http.dart';
+import 'category.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -133,11 +133,19 @@ class _HomeState extends State<Home> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        print("$navBarItem");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Category(Query: navBarItem[index]),
+                          ),
+                        );
                       },
+
+
+
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                           color: Colors.blue,
@@ -185,7 +193,7 @@ class _HomeState extends State<Home> {
                                 width: double.infinity,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Image.asset(
-                                    'images/india.jpeg',
+                                    'images/newsFlashLogo.png',
                                     fit: BoxFit.cover,
                                     height: 200,
                                     width: double.infinity,
@@ -280,7 +288,7 @@ class _HomeState extends State<Home> {
                                         errorBuilder:
                                             (context, error, stackTrace) {
                                           return Image.asset(
-                                            'images/placeholder.png',
+                                            'images/newsFlashLogo.png',
                                             fit: BoxFit.cover,
                                             height: 200,
                                             width: double.infinity,
