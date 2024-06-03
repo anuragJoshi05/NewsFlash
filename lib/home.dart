@@ -119,7 +119,13 @@ class _HomeState extends State<Home> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        if((searchController.text).replaceAll(" ","" )==""){
+                          print("Blank search");
+                        }else{
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Category(Query: searchController.text)));
+                        }
+                      },
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(3, 0, 7, 0),
                         child: const Icon(
@@ -132,7 +138,9 @@ class _HomeState extends State<Home> {
                       child: TextField(
                         controller: searchController,
                         style: const TextStyle(color: Colors.greenAccent),
-                        onSubmitted: (value) {},
+                        onSubmitted: (value) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Category(Query: value)));
+                        },
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "BreakingNews",
