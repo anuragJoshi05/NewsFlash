@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:newsflash/model.dart';
 import 'package:http/http.dart';
+import 'package:newsflash/newsView.dart';
 import 'category.dart';
 import 'dart:math';
 
@@ -261,7 +262,14 @@ class _HomeState extends State<Home> {
                       ),
                       items: newsModelListCarousel.map((instance) {
                         return Builder(builder: (BuildContext context) {
-                          return Container(
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NewsView(instance.newsUrl)));
+                            },
                             child: Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -392,86 +400,96 @@ class _HomeState extends State<Home> {
                             return Container(
                               margin: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
-                              child: Card(
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.network(
-                                        newsModelList[index].newsImg,
-                                        fit: BoxFit.cover,
-                                        height: 200,
-                                        width: double.infinity,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Image.asset(
-                                            'images/newsFlashLogo.png',
-                                            fit: BoxFit.cover,
-                                            height: 200,
-                                            width: double.infinity,
-                                          );
-                                        },
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NewsView(
+                                              newsModelList[index].newsUrl)));
+                                },
+
+                                child: Card(
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.network(
+                                          newsModelList[index].newsImg,
+                                          fit: BoxFit.cover,
+                                          height: 200,
+                                          width: double.infinity,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Image.asset(
+                                              'images/newsFlashLogo.png',
+                                              fit: BoxFit.cover,
+                                              height: 200,
+                                              width: double.infinity,
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      left: 0,
-                                      right: 0,
-                                      bottom: 0,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0),
-                                              Colors.black,
+                                      Positioned(
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.black.withOpacity(0),
+                                                Colors.black,
+                                              ],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
+                                          ),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15, 15, 10, 8),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                newsModelList[index]
+                                                            .newsHead
+                                                            .length >
+                                                        50
+                                                    ? "${newsModelList[index].newsHead.substring(0, 50)}..."
+                                                    : newsModelList[index]
+                                                        .newsHead,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                newsModelList[index]
+                                                            .newsDes
+                                                            .length >
+                                                        50
+                                                    ? "${newsModelList[index].newsDes.substring(0, 50)}..."
+                                                    : newsModelList[index]
+                                                        .newsDes,
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
                                             ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
                                           ),
                                         ),
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 15, 10, 8),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              newsModelList[index]
-                                                          .newsHead
-                                                          .length >
-                                                      50
-                                                  ? "${newsModelList[index].newsHead.substring(0, 50)}..."
-                                                  : newsModelList[index]
-                                                      .newsHead,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            Text(
-                                              newsModelList[index]
-                                                          .newsDes
-                                                          .length >
-                                                      50
-                                                  ? "${newsModelList[index].newsDes.substring(0, 50)}..."
-                                                  : newsModelList[index]
-                                                      .newsDes,
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
