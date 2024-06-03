@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:newsflash/model.dart';
 import 'package:http/http.dart';
 import 'category.dart';
+import 'dart:math';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,11 +24,40 @@ class _HomeState extends State<Home> {
     "LifeStyle",
     "Business"
   ];
+  List<String> newsCategories = [
+    "World News",
+    "Politics",
+    "Technology",
+    "Science",
+    "Entertainment",
+    "Travel",
+    "Food",
+    "Opinion",
+    "Weather",
+    "Education",
+    "Environment",
+    "Culture",
+    "Automotive",
+    "Fashion",
+    "Real Estate",
+    "Crime",
+    "Celebrity News",
+    "Gaming",
+    "Music",
+    "Art",
+    "History",
+    "Religion"
+  ];
+  Random random = Random();
+  late int randomIndex;
+  late String randomCategory;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    randomIndex = random.nextInt(newsCategories.length);
+    randomCategory = newsCategories[randomIndex];
     getNewsOfIndia();
     getNewsByQuery("Breaking News");
   }
@@ -168,7 +198,8 @@ class _HomeState extends State<Home> {
               margin: EdgeInsets.symmetric(vertical: 15),
               child: isLoading
                   ? Container(
-                      height: 200, child: Center(child: CircularProgressIndicator()))
+                      height: 200,
+                      child: Center(child: CircularProgressIndicator()))
                   : CarouselSlider(
                       options: (CarouselOptions(
                         height: 200,
@@ -226,9 +257,9 @@ class _HomeState extends State<Home> {
                                         children: [
                                           Text(
                                             instance.newsHead.length > 40
-                                                ? instance.newsHead
-                                                    .substring(0, 45)
-                                                : instance.newsHead,
+                                                ? "${instance.newsHead
+                                                    .substring(0, 45)}..."
+                                                : "${instance.newsHead}...",
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18,
@@ -265,7 +296,9 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   isLoading
-                      ? SizedBox(height: 220, child: Center(child: CircularProgressIndicator()))
+                      ? SizedBox(
+                          height: 220,
+                          child: Center(child: CircularProgressIndicator()))
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -365,7 +398,13 @@ class _HomeState extends State<Home> {
                       Container(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Category(
+                                        Query: newsCategories[randomIndex])));
+                          },
                           child: const Text("SHOW MORE"),
                         ),
                       ),
