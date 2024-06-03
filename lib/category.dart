@@ -18,23 +18,33 @@ class _CategoryState extends State<Category> {
   bool isLoading = true;
   Future<void> getNewsByQuery(String query) async {
     String url = "";
-    if(query == "Top News" || query == "India"){
+    if (query == "Top News" || query == "India") {
       url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=6d520596ed064f07aa0b4dc4e3d3f4b1";
-    }else{
-      url =
-      "https://newsapi.org/v2/everything?q=$query&from=2024-05-03&sortBy=publishedAt&apiKey=6d520596ed064f07aa0b4dc4e3d3f4b1";
+    } else {
+      url = "https://newsapi.org/v2/everything?q=$query&from=2024-05-03&sortBy=publishedAt&apiKey=6d520596ed064f07aa0b4dc4e3d3f4b1";
     }
-    Response response = await get(Uri.parse(url));
-    Map data = jsonDecode(response.body);
 
-    data["articles"].forEach((element) {
-      NewsQueryModel newsQueryModel = NewsQueryModel.fromMap(element);
-      newsModelList.add(newsQueryModel);
-    });
-    setState(() {
-      isLoading = false;
-    });
+    try {
+      Response response = await get(Uri.parse(url));
+      Map data = jsonDecode(response.body);
+
+      for (var element in data["articles"]) {
+        try {
+          NewsQueryModel newsQueryModel = NewsQueryModel.fromMap(element);
+          newsModelList.add(newsQueryModel);
+        } catch (e) {
+          print("Error parsing article: $e");
+        }
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching news: $e");
+    }
   }
+
   @override
   void initState() {
     super.initState();

@@ -63,32 +63,63 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> getNewsByQuery(String query) async {
-    String url =
-        "https://newsapi.org/v2/everything?q=$query&from=2024-05-03&sortBy=publishedAt&apiKey=6d520596ed064f07aa0b4dc4e3d3f4b1";
-    Response response = await get(Uri.parse(url));
-    Map data = jsonDecode(response.body);
+    Map element;
+    int i = 0;
 
-    data["articles"].forEach((element) {
-      NewsQueryModel newsQueryModel = NewsQueryModel.fromMap(element);
-      newsModelList.add(newsQueryModel);
-    });
-    setState(() {
-      isLoading = false;
-    });
+    try {
+      String url =
+          "https://newsapi.org/v2/everything?q=$query&from=2024-05-03&sortBy=publishedAt&apiKey=6d520596ed064f07aa0b4dc4e3d3f4b1";
+      Response response = await get(Uri.parse(url));
+      Map data = jsonDecode(response.body);
+
+      for (element in data["articles"]) {
+        try {
+          NewsQueryModel newsQueryModel = NewsQueryModel.fromMap(element);
+          newsModelList.add(newsQueryModel);
+        } catch (e) {
+          print("Error parsing article: $e");
+        }
+
+        i++;
+        if (i == 12) break;
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching news: $e");
+    }
   }
 
   Future<void> getNewsOfIndia() async {
-    String url =
-        "https://newsapi.org/v2/top-headlines?country=in&apiKey=6d520596ed064f07aa0b4dc4e3d3f4b1";
-    Response response = await get(Uri.parse(url));
-    Map data = jsonDecode(response.body);
-    data["articles"].forEach((element) {
-      NewsQueryModel newsQueryModel = NewsQueryModel.fromMap(element);
-      newsModelListCarousel.add(newsQueryModel);
-    });
-    setState(() {
-      isLoading = false;
-    });
+    Map element;
+    int i = 0;
+
+    try {
+      String url =
+          "https://newsapi.org/v2/top-headlines?country=in&apiKey=6d520596ed064f07aa0b4dc4e3d3f4b1";
+      Response response = await get(Uri.parse(url));
+      Map data = jsonDecode(response.body);
+
+      for (element in data["articles"]) {
+        try {
+          NewsQueryModel newsQueryModel = NewsQueryModel.fromMap(element);
+          newsModelListCarousel.add(newsQueryModel);
+        } catch (e) {
+          print("Error parsing article: $e");
+        }
+
+        i++;
+        if (i == 12) break;
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching news: $e");
+    }
   }
 
   TextEditingController searchController = TextEditingController();
@@ -120,10 +151,14 @@ class _HomeState extends State<Home> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        if((searchController.text).replaceAll(" ","" )==""){
+                        if ((searchController.text).replaceAll(" ", "") == "") {
                           print("Blank search");
-                        }else{
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Category(Query: searchController.text)));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Category(Query: searchController.text)));
                         }
                       },
                       child: Container(
@@ -139,7 +174,11 @@ class _HomeState extends State<Home> {
                         controller: searchController,
                         style: const TextStyle(color: Colors.greenAccent),
                         onSubmitted: (value) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Category(Query: value)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Category(Query: value)));
                         },
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -265,8 +304,7 @@ class _HomeState extends State<Home> {
                                         children: [
                                           Text(
                                             instance.newsHead.length > 40
-                                                ? "${instance.newsHead
-                                                    .substring(0, 45)}..."
+                                                ? "${instance.newsHead.substring(0, 45)}..."
                                                 : "${instance.newsHead}...",
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
