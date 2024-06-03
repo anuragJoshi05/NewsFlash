@@ -5,7 +5,6 @@ import 'package:newsflash/model.dart';
 import 'package:http/http.dart';
 import 'category.dart';
 
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -136,16 +135,14 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Category(Query: navBarItem[index]),
+                            builder: (context) =>
+                                Category(Query: navBarItem[index]),
                           ),
                         );
                       },
-
-
-
                       child: Container(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                           color: Colors.blue,
@@ -169,79 +166,85 @@ class _HomeState extends State<Home> {
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 15),
-              child: CarouselSlider(
-                options: (CarouselOptions(
-                  height: 200,
-                  enableInfiniteScroll: false,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                )),
-                items: newsModelListCarousel.map((instance) {
-                  return Builder(builder: (BuildContext context) {
-                    return Container(
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                instance.newsImg,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
-                                    'images/newsFlashLogo.png',
-                                    fit: BoxFit.cover,
-                                    height: 200,
-                                    width: double.infinity,
-                                  );
-                                },
+              child: isLoading
+                  ? Container(
+                      height: 200, child: Center(child: CircularProgressIndicator()))
+                  : CarouselSlider(
+                      options: (CarouselOptions(
+                        height: 200,
+                        enableInfiniteScroll: false,
+                        autoPlay: true,
+                        enlargeCenterPage: true,
+                      )),
+                      items: newsModelListCarousel.map((instance) {
+                        return Builder(builder: (BuildContext context) {
+                          return Container(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.black.withOpacity(0),
-                                      Colors.black,
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  ),
-                                ),
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 15, 10, 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      instance.newsHead.length > 40
-                                          ? instance.newsHead.substring(0, 45)
-                                          : instance.newsHead,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                          color: Colors.white),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      instance.newsImg,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'images/newsFlashLogo.png',
+                                          fit: BoxFit.cover,
+                                          height: 200,
+                                          width: double.infinity,
+                                        );
+                                      },
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0),
+                                            Colors.black,
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 15, 10, 8),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            instance.newsHead.length > 40
+                                                ? instance.newsHead
+                                                    .substring(0, 45)
+                                                : instance.newsHead,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-                }).toList(),
-              ),
+                          );
+                        });
+                      }).toList(),
+                    ),
             ),
             Container(
               child: Column(
@@ -262,7 +265,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   isLoading
-                      ? Center(child: CircularProgressIndicator())
+                      ? SizedBox(height: 220, child: Center(child: CircularProgressIndicator()))
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
