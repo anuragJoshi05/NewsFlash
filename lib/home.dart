@@ -143,7 +143,7 @@ class _HomeState extends State<Home> {
                         },
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "BreakingNews",
+                          hintText: "Search ${newsCategories[randomIndex]}",
                           hintStyle: const TextStyle(color: Colors.yellow),
                           suffixIcon: IconButton(
                             onPressed: () {},
