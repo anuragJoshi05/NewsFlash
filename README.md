@@ -27,7 +27,7 @@ This project is a starting point for a Flutter application. Follow these instruc
 ### Prerequisites
 
 - [Flutter SDK](https://flutter.dev/docs/get-started/install)
-- [Android Studio or Visual Studio Code](https://flutter.dev/docs/get-started/editor)
+- [Android Studio](https://flutter.dev/docs/get-started/editor)
 - [Git](https://git-scm.com/downloads)
 
 ### Installation
