@@ -1,6 +1,6 @@
 # NewsFlash
 
-NewsFlash is a sleek and user-friendly news application built using Flutter. It is designed to provide an enhanced and seamless news reading experience.
+NewsFlash is a modern and user-centric news application developed using Flutter. It is crafted to deliver an enhanced, seamless, and engaging news reading experience.
 
 ## Features
 
